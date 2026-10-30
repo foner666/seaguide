@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SeaGuide — образовательный портал для моряков, кадетов и практикантов: базы знаний по профессиям, STCW, навигация, машины, связь." />
+  <title>SeaGuide — образовательный портал для моряков</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ================= ШАПКА ================= -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="logo" href="#top" aria-label="SeaGuide — на главную">
+        <span class="logo-mark">⚓</span>
+        <span class="logo-text">Sea<span>Guide</span></span>
+      </a>
+
+      <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
+        <a href="#professions">Профессии</a>
+        <a href="#knowledge">База знаний</a>
+        <a href="#audience">Аудитория</a>
+        <a href="#about">О портале</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="hero-eyebrow">Образовательный портал для тех, кто выбрал море</p>
+      <h1>Учись. Расти.<br /><span class="accent">Иди по курсу</span> к цели.</h1>
+      <p class="hero-lead">
+        SeaGuide — структурированная база знаний для моряков, кадетов и практикантов.
+        Выберите профессию и уровень — получите подборку материалов именно под вас.
+      </p>
+      <div class="hero-actions">
+        <a href="#professions" class="btn btn-primary">Выбрать профессию</a>
+        <a href="#knowledge" class="btn btn-ghost">К базе знаний</a>
+      </div>
+
+      <div class="hero-stats" aria-label="Статистика портала">
+        <div class="stat"><span class="stat-num" data-count="4">0</span><span class="stat-label">профессии</span></div>
+        <div class="stat"><span class="stat-num" data-count="20">0</span><span class="stat-label">учебных модуля</span></div>
+        <div class="stat"><span class="stat-num" data-count="3">0</span><span class="stat-label">уровня подготовки</span></div>
+      </div>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,48 C240,90 480,10 720,40 C960,70 1200,20 1440,50 L1440,90 L0,90 Z" fill="var(--bg)"></path>
+    </svg>
+  </section>
+
+  <!-- ================= ВЫБОР ПРОФЕССИИ ================= -->
+  <section class="section" id="professions">
+    <div class="container">
+      <div class="section-head">
+        <h2>Выберите свою профессию</h2>
+        <p>Базы знаний адаптируются под выбранное направление. Можно смотреть материалы по всем профессиям сразу.</p>
+      </div>
+
+      <div class="profession-grid" id="professionGrid" role="group" aria-label="Выбор профессии">
+        <!-- карточки профессий генерируются из js/data.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= БАЗА ЗНАНИЙ ================= -->
+  <section class="section section-alt" id="knowledge">
+    <div class="container">
+      <div class="section-head">
+        <h2>База знаний</h2>
+        <p>Собираем то, что нужно знать: от основ до подготовки к экзаменам. Фильтруйте по профессии, аудитории и уровню.</p>
+      </div>
+
+      <div class="filters">
+        <div class="pill-group" id="audienceFilter" role="group" aria-label="Фильтр по аудитории">
+          <button class="pill is-active" data-audience="all">Все</button>
+          <button class="pill" data-audience="sailor">Моряки</button>
+          <button class="pill" data-audience="cadet">Кадеты</button>
+          <button class="pill" data-audience="intern">Практиканты</button>
+        </div>
+
+        <div class="pill-group" id="levelFilter" role="group" aria-label="Фильтр по уровню">
+          <button class="pill is-active" data-level="all">Любой уровень</button>
+          <button class="pill" data-level="basic">Базовый</button>
+          <button class="pill" data-level="mid">Уверенный</button>
+          <button class="pill" data-level="advanced">Продвинутый</button>
+        </div>
+
+        <div class="search-wrap">
+          <input type="search" id="searchInput" class="search-input" placeholder="Поиск по модулям…" aria-label="Поиск по модулям" />
+        </div>
+      </div>
+
+      <p class="result-count" id="resultCount" aria-live="polite"></p>
+
+      <div class="module-grid" id="moduleGrid">
+        <!-- модули генерируются из js/data.js -->
+      </div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <span class="empty-icon">🌊</span>
+        <h3>По выбранным условиям ничего не нашлось</h3>
+        <p>Попробуйте смягчить фильтры или сбросить их.</p>
+        <button class="btn btn-primary" id="resetFilters">Сбросить фильтры</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= АУДИТОРИЯ ================= -->
+  <section class="section" id="audience">
+    <div class="container">
+      <div class="section-head">
+        <h2>Кому мы помогаем</h2>
+        <p>Разный опыт — разные задачи. Каждый найдёт материалы на своём этапе пути.</p>
+      </div>
+      <div class="audience-grid">
+        <article class="audience-card">
+          <div class="audience-icon" aria-hidden="true">🧭</div>
+          <h3>Моряки</h3>
+          <p>Рабочая команда и офицеры в море: материалы по смене, подготовке к аттестации, COLREG, судовым системам и нормам STCW.</p>
+        </article>
+        <article class="audience-card">
+          <div class="audience-icon" aria-hidden="true">🎓</div>
+          <h3>Кадеты</h3>
+          <p>Студенты морских вузов: фундамент теории, подготовка к зачётам и экзаменам, первые шаги в профессии.</p>
+        </article>
+        <article class="audience-card">
+          <div class="audience-icon" aria-hidden="true">🛠️</div>
+          <h3>Практиканты</h3>
+          <p>Судоводители в начале пути: практика, чек-листы, типичные ошибки и то, как всё выглядит в реальном судоходстве.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= О ПОРТАЛЕ ================= -->
+  <section class="section section-alt" id="about">
+    <div class="container about-grid">
+      <div>
+        <h2>О портале</h2>
+        <p>
+          SeaGuide создан, чтобы собраться в одном месте всё, что разбросано по учебникам,
+          судовым правилам и личным заметкам. Мы структурируем материал по профессиям и уровням
+          подготовки, чтобы вы тратили время не на поиск, а на обучение.
+        </p>
+        <p>
+          Портал постоянно пополняется: новые модули, практические кейсы и подборки к экзаменам.
+        </p>
+      </div>
+      <ul class="feature-list">
+        <li><strong>Профессии</strong> — палубная, машинная, радиосвязь и общие дисциплины.</li>
+        <li><strong>Уровни</strong> — базовый, уверенный, продвинутый: входите с любой точки.</li>
+        <li><strong>Поиск</strong> — находите нужный модуль за пару секунд.</li>
+        <li><strong>Простота</strong> — быстрый сайт, работает на телефоне в море и на берегу.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= ПОДВАЛ ================= -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="logo logo-light" href="#top">
+        <span class="logo-mark">⚓</span>
+        <span class="logo-text">Sea<span>Guide</span></span>
+      </a>
+      <p>© 2026 SeaGuide. Учись. Расти. Иди по курсу к цели.</p>
+    </div>
+  </footer>
+
+  <!-- ================= МОДАЛЬНОЕ ОКНО МОДУЛЯ ================= -->
+  <div class="modal" id="moduleModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="document">
+      <button class="modal-close" data-close-modal aria-label="Закрыть">&times;</button>
+      <div class="modal-badges" id="modalBadges"></div>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc" class="modal-desc"></p>
+      <h4>Что входит в модуль</h4>
+      <ul class="modal-topics" id="modalTopics"></ul>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
