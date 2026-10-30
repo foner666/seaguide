@@ -79,7 +79,11 @@
         </div>
         <h3>${m.title}</h3>
         <p>${m.desc}</p>
-        <span class="module-open">Открыть модуль →</span>
+        <div class="module-topics-preview">
+          ${m.topics.slice(0, 3).map((t) => `<span>${t}</span>`).join("")}
+          ${m.topics.length > 3 ? `<span class="more">+${m.topics.length - 3} ещё</span>` : ""}
+        </div>
+        <span class="module-open">Учебный модуль →</span>
       </button>
     `
       )
@@ -101,6 +105,49 @@
     return "модулей";
   }
 
+  /* ---------- базовые курсы ---------- */
+  let coursesGroup = "cadet";
+
+  function renderCourses() {
+    $("#coursesIntro").textContent = COURSE_INTROS[coursesGroup] || "";
+    const items = BASIC_COURSES[coursesGroup] || [];
+    $("#coursesList").innerHTML = items
+      .map((c, i) => {
+        const m = MODULES.find((x) => x.id === c.module);
+        if (!m) return "";
+        return `
+      <button class="course-step" data-module="${c.module}">
+        <span class="course-num">${i + 1}</span>
+        <span class="course-body">
+          <h3>${m.icon} ${c.title}</h3>
+          <p>${c.note}</p>
+        </span>
+        <span class="course-go">→</span>
+      </button>
+    `;
+      })
+      .join("");
+  }
+
+  function bindCourses() {
+    $("#coursesTabs").addEventListener("click", (e) => {
+      const tab = e.target.closest(".courses-tab");
+      if (!tab) return;
+      coursesGroup = tab.dataset.group;
+      $$(".courses-tab").forEach((t) => {
+        const active = t === tab;
+        t.classList.toggle("is-active", active);
+        t.setAttribute("aria-selected", String(active));
+      });
+      renderCourses();
+    });
+
+    $("#coursesList").addEventListener("click", (e) => {
+      const step = e.target.closest(".course-step");
+      if (step) openModule(step.dataset.module);
+    });
+  }
+
   /* ---------- выбор профессии ---------- */
   function selectProfession(id) {
     // повторный клик по выбранной — сброс
@@ -111,6 +158,8 @@
       card.setAttribute("aria-pressed", String(active));
     });
     renderModules();
+    // прокрутить к базе знаний, чтобы показать отфильтрованные модули
+    $("#knowledge").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   /* ---------- фильтры-пилюли ---------- */
@@ -139,7 +188,14 @@
     ].join("");
     $("#modalTitle").textContent = m.title;
     $("#modalDesc").textContent = m.desc;
-    $("#modalTopics").innerHTML = m.topics.map((t) => `<li>${t}</li>`).join("");
+    $("#modalContent").innerHTML = (m.content || []).map((sec) => `
+      <section class="mod-sec">
+        <h4>${sec.h}</h4>
+        ${sec.p ? `<p>${sec.p}</p>` : ""}
+        ${sec.list ? `<ul>${sec.list.map((t) => `<li>${t}</li>`).join("")}</ul>` : ""}
+        ${sec.tip ? `<div class="mod-tip"><span>💡</span><p>${sec.tip}</p></div>` : ""}
+      </section>
+    `).join("");
 
     const modal = $("#moduleModal");
     modal.hidden = false;
@@ -188,9 +244,11 @@
   function init() {
     renderProfessions();
     renderModules();
+    renderCourses();
     bindPillGroup("#audienceFilter", "audience");
     bindPillGroup("#levelFilter", "level");
     bindMobileNav();
+    bindCourses();
 
     $("#professionGrid").addEventListener("click", (e) => {
       const card = e.target.closest(".profession-card");
@@ -229,8 +287,8 @@
       renderModules();
     });
 
-    // закрытие модального окна
-    $("[data-close-modal]").forEach((el) =>
+    // закрытие модального окна (крестик + фон)
+    $$("[data-close-modal]").forEach((el) =>
       el.addEventListener("click", closeModal)
     );
     document.addEventListener("keydown", (e) => {
