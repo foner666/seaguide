@@ -622,6 +622,202 @@ body {
   font-weight: 800;
 }
 
+/* ---------- страница модуля ---------- */
+.back-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--accent); }
+
+.mod-hero {
+  background:
+    radial-gradient(800px 400px at 90% -20%, rgba(33, 90, 138, 0.5), transparent 60%),
+    linear-gradient(160deg, var(--ocean-950) 0%, var(--ocean-900) 100%);
+  color: #fff;
+  padding: 2.2rem 0 2.8rem;
+}
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 1.6rem;
+}
+.crumbs a { color: rgba(255, 255, 255, 0.75); text-decoration: none; }
+.crumbs a:hover { color: var(--accent); }
+.crumbs .crumb-current { color: #fff; font-weight: 600; }
+
+.mod-hero-inner {
+  display: flex;
+  gap: 1.4rem;
+  align-items: flex-start;
+}
+.mod-hero-icon {
+  flex-shrink: 0;
+  width: 72px; height: 72px;
+  display: grid;
+  place-items: center;
+  font-size: 2.4rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.mod-hero-inner h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0.5rem 0 0.4rem;
+}
+.mod-goal {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.98rem;
+  margin-bottom: 0.4rem;
+}
+.mod-hero .mod-desc {
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 70ch;
+}
+.mod-hero .mod-badges { margin-bottom: 0; }
+
+.mod-main { padding: 2.5rem 0 4rem; }
+
+.dev-banner {
+  background: #fff7ef;
+  border: 1.5px solid #ffd9b8;
+  border-radius: var(--radius);
+  padding: 1rem 1.3rem;
+  margin-bottom: 1.8rem;
+  font-size: 0.95rem;
+  color: #7a4a17;
+}
+.dev-banner a { color: var(--accent-dark); font-weight: 700; }
+
+/* контент модуля (страница) */
+.page-module .mod-sec {
+  margin-bottom: 2rem;
+  scroll-margin-top: 90px;
+}
+.page-module .mod-sec h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ocean-800);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--line);
+}
+.page-module .mod-sec p { font-size: 1rem; color: var(--ink-soft); margin-bottom: 0.7rem; }
+.page-module .mod-sec li { font-size: 0.98rem; }
+.page-module .mod-tip {
+  background: var(--ocean-100);
+  border-color: #b7d4ea;
+}
+.page-module .mod-tip p { color: var(--ocean-800); }
+
+/* ---------- тест самопроверки ---------- */
+.quiz {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px dashed var(--line);
+}
+.quiz-head h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.3rem; }
+.quiz-head p { color: var(--ink-soft); margin-bottom: 1.4rem; }
+.quiz-q {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem;
+  margin-bottom: 1rem;
+}
+.quiz-q-text { font-weight: 700; margin-bottom: 0.9rem; display: flex; gap: 0.6rem; }
+.quiz-num {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ocean-800);
+  color: #fff;
+  font-size: 0.85rem;
+}
+.quiz-opts { display: grid; gap: 0.5rem; }
+.quiz-opt {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.quiz-opt:hover { border-color: var(--ocean-600); }
+.quiz-opt input { margin-top: 0.25rem; accent-color: var(--accent); }
+.quiz-opt-text { font-size: 0.95rem; color: var(--ink-soft); }
+.quiz-opt-correct {
+  border-color: #14683e;
+  background: #e3f4ec;
+}
+.quiz-opt-correct .quiz-opt-text { color: #14683e; font-weight: 600; }
+.quiz-opt-wrong {
+  border-color: #a33421;
+  background: #fde4e0;
+}
+.quiz-opt-wrong .quiz-opt-text { color: #a33421; }
+.quiz-q-unanswered { border-color: #d9a441; background: #fdf6e7; }
+.quiz-explain {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.9rem;
+}
+.quiz-mark { font-size: 1rem; }
+#quizCheck { margin-top: 0.5rem; }
+.quiz-result {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem;
+  background: var(--card);
+  border: 2px solid var(--ocean-800);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.5rem;
+}
+.quiz-result strong { font-size: 1.3rem; color: var(--ocean-800); }
+.quiz-result span { display: block; color: var(--ink-soft); margin-top: 0.2rem; }
+
+/* ---------- CTA «подробный материал» в модалке ---------- */
+.modal-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--ocean-800), var(--ocean-900));
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.modal-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(10, 31, 56, 0.3);
+}
+.cta-icon { font-size: 1.8rem; }
+.cta-text { flex: 1; display: flex; flex-direction: column; }
+.cta-text strong { font-size: 1.02rem; }
+.cta-text small { color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; }
+.cta-arrow { font-size: 1.4rem; font-weight: 800; color: var(--accent); }
+
 /* ---------- адаптив ---------- */
 @media (max-width: 760px) {
   .main-nav {

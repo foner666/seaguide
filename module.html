@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Модуль — SeaGuide</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-module">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html" aria-label="SeaGuide — на главную">
+        <span class="logo-mark">⚓</span>
+        <span class="logo-text">Sea<span>Guide</span></span>
+      </a>
+      <a class="back-link" href="index.html#knowledge">← Все модули</a>
+    </div>
+  </header>
+
+  <!-- ШАПКА МОДУЛЯ -->
+  <section class="mod-hero" id="modHero">
+    <div class="container">
+      <nav class="crumbs" id="crumbs" aria-label="Хлебные крошки"></nav>
+      <div class="mod-hero-inner">
+        <span class="mod-hero-icon" id="modIcon" aria-hidden="true"></span>
+        <div>
+          <div class="mod-badges" id="modBadges"></div>
+          <h1 id="modTitle"></h1>
+          <p class="mod-goal" id="modGoal"></p>
+          <p class="mod-desc" id="modDesc"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ТЕЛО -->
+  <main class="container mod-main" id="modMain">
+    <div class="dev-banner" id="devBanner" hidden>
+      🚧 Полный материал по этому модулю готовится. Ниже — краткая версия.
+      Краткий обзор всегда доступен в карточке модуля в <a href="index.html#knowledge">базе знаний</a>.
+    </div>
+    <div class="mod-content" id="modContent"></div>
+
+    <!-- ТЕСТ САМОПРОВЕРКИ -->
+    <section class="quiz" id="quizWrap" hidden>
+      <div class="quiz-head">
+        <h2>Проверьте себя</h2>
+        <p>Ответьте на вопросы и сравните с правильными. Разбор — под каждым вопросом.</p>
+      </div>
+      <div id="quizBox"></div>
+      <div class="quiz-result" id="quizResult" hidden>
+        <span id="quizScore"></span>
+        <button class="btn btn-primary" id="quizRetry">Пройти ещё раз</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 SeaGuide. Учись. Расти. Иди по курсу к цели.</p>
+      <a href="index.html#knowledge">← Вернуться к базе знаний</a>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/module.js"></script>
+</body>
+</html>

@@ -188,6 +188,8 @@
     ].join("");
     $("#modalTitle").textContent = m.title;
     $("#modalDesc").textContent = m.desc;
+    const cta = $("#modalCta");
+    cta.href = `module.html?id=${m.id}`;
     $("#modalContent").innerHTML = (m.content || []).map((sec) => `
       <section class="mod-sec">
         <h4>${sec.h}</h4>
