@@ -1,228 +1,315 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="SeaGuide — образовательный портал для моряков, кадетов и практикантов: базы знаний по профессиям, STCW, навигация, машины, связь." />
-  <title>SeaGuide — образовательный портал для моряков</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#082434" />
+<meta name="description" content="SeaGuide — интерактивное судно-портал: пройдите по мостику, палубе, машинному отделению и радиорубке и изучите морские профессии." />
+<title>SeaGuide — морские профессии, отсек за отсеком</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>⚓</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-view="hero">
 
-  <!-- ================= ШАПКА ================= -->
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="logo" href="#top" aria-label="SeaGuide — на главную">
-        <span class="logo-mark">⚓</span>
-        <span class="logo-text">Sea<span>Guide</span></span>
-      </a>
+<!-- ═══════════ НЕБО И ОКЕАН ═══════════ -->
+<div class="world" aria-hidden="true">
+  <div class="sky"></div>
+  <div class="sun"><span class="sun-core"></span><span class="sun-halo"></span></div>
+  <div class="clouds">
+    <div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="cloud c3"></div><div class="cloud c4"></div>
+  </div>
+  <div class="gulls">
+    <span class="gull g1">ᨒ</span><span class="gull g2">ᨒ</span><span class="gull g3">ᨒ</span>
+  </div>
+  <div class="horizon-haze"></div>
+  <canvas class="sea" id="seaCanvas"></canvas>
+  <div class="sea-glare"></div>
+</div>
 
-      <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
-        <a href="#professions">Профессии</a>
-        <a href="#courses">Базовые курсы</a>
-        <a href="#knowledge">База знаний</a>
-        <a href="#audience">Аудитория</a>
-        <a href="#about">О портале</a>
-      </nav>
+<!-- ═══════════ СУДНО ═══════════ -->
+<div class="stage" id="stage">
+  <svg id="scene" class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Большое судно идёт по открытому океану">
+    <defs>
+      <linearGradient id="hullG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#123c56"/><stop offset=".45" stop-color="#0b2a3d"/><stop offset="1" stop-color="#061a27"/>
+      </linearGradient>
+      <linearGradient id="bootG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#b8493f"/><stop offset="1" stop-color="#7d2b28"/>
+      </linearGradient>
+      <linearGradient id="whiteG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cfe0e8"/>
+      </linearGradient>
+      <linearGradient id="deckG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#5d7f8e"/><stop offset="1" stop-color="#33525f"/>
+      </linearGradient>
+      <linearGradient id="glassG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8fd4ea"/><stop offset="1" stop-color="#2b6f8e"/>
+      </linearGradient>
+      <linearGradient id="sunBand" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#ffd79a" stop-opacity="0"/>
+        <stop offset=".5" stop-color="#ffd79a" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#ffd79a" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="glowG"><stop offset="0" stop-color="#ffd79a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd79a" stop-opacity="0"/></radialGradient>
+      <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
 
-      <button class="nav-toggle" id="navToggle" aria-label="Открыть меню" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+    <g id="camera">
+      <!-- отражение и пена -->
+      <g id="shipReflection" opacity=".22" filter="url(#soft)">
+        <path d="M270,700 L1400,700 C1330,760 320,760 270,700 Z" fill="#0a2434"/>
+      </g>
 
-  <!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
-  <section class="hero">
-    <div class="container hero-inner">
-      <p class="hero-eyebrow">Образовательный портал для тех, кто выбрал море</p>
-      <h1>Учись. Расти.<br /><span class="accent">Иди по курсу</span> к цели.</h1>
-      <p class="hero-lead">
-        SeaGuide — структурированная база знаний для моряков, кадетов и практикантов.
-        Выберите профессию и уровень — получите подборку материалов именно под вас.
-      </p>
-      <div class="hero-actions">
-        <a href="#professions" class="btn btn-primary">Выбрать профессию</a>
-        <a href="#knowledge" class="btn btn-ghost">К базе знаний</a>
-      </div>
+      <g id="shipBob">
+        <!-- ===== КОРПУС ===== -->
+        <g id="hull">
+          <path d="M236,566 C330,596 520,606 900,608 C1140,609 1300,596 1386,566
+                   L1420,596 C1430,646 1404,684 1352,694 C1240,712 460,712 330,700
+                   C272,694 240,662 236,626 Z" fill="url(#hullG)"/>
+          <!-- надводный борт -->
+          <path d="M236,566 C330,596 520,606 900,608 C1140,609 1300,596 1386,566
+                   L1392,590 C1300,620 1140,632 900,634 C520,632 330,622 240,592 Z" fill="#1b5a75" opacity=".85"/>
+          <!-- осадка -->
+          <path d="M330,700 C460,712 1240,712 1352,694 L1348,700 C1240,718 460,718 330,706 Z" fill="url(#bootG)"/>
+          <!-- солнечный блик по борту -->
+          <path d="M1418,600 C1426,646 1400,682 1348,692 L1340,690 C1392,676 1412,644 1406,600 Z" fill="url(#sunBand)" opacity=".55"/>
+          <!-- бульб -->
+          <path d="M1360,690 C1400,694 1424,708 1420,722 C1414,708 1388,702 1358,700 Z" fill="#0a2434"/>
+          <!-- клюзы / марки -->
+          <circle cx="1345" cy="612" r="4" fill="#0a1c27" opacity=".6"/>
+          <circle cx="1332" cy="628" r="4" fill="#0a1c27" opacity=".6"/>
+        </g>
 
-      <div class="hero-stats" aria-label="Статистика портала">
-        <div class="stat"><span class="stat-num" data-count="4">0</span><span class="stat-label">профессии</span></div>
-        <div class="stat"><span class="stat-num" data-count="18">0</span><span class="stat-label">учебных модуля</span></div>
-        <div class="stat"><span class="stat-num" data-count="3">0</span><span class="stat-label">уровня подготовки</span></div>
-      </div>
-    </div>
-    <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,48 C240,90 480,10 720,40 C960,70 1200,20 1440,50 L1440,90 L0,90 Z" fill="var(--bg)"></path>
-    </svg>
-  </section>
+        <!-- ===== ВАХТЕННАЯ ПАЛУБА (обвязка) ===== -->
+        <path d="M236,566 C330,596 520,606 900,608 C1140,609 1300,596 1386,566 L1386,574 C1300,604 1140,617 900,618 C520,616 330,606 240,574 Z" fill="#dbe7ec" opacity=".55"/>
 
-  <!-- ================= ВЫБОР ПРОФЕССИИ ================= -->
-  <section class="section" id="professions">
-    <div class="container">
-      <div class="section-head">
-        <h2>Выберите свою профессию</h2>
-        <p>Базы знаний адаптируются под выбранное направление. Можно смотреть материалы по всем профессиям сразу.</p>
-      </div>
+        <!-- ===== ГРУЗОВЫЕ БЭИ (контейнеры) ===== -->
+        <g id="cargo">
+          <rect x="640" y="536" width="620" height="72" rx="3" fill="url(#deckG)"/>
+          <g id="containers"></g>
+          <!-- люковые крышки -->
+          <rect x="640" y="530" width="620" height="10" rx="2" fill="#7d9aa6" opacity=".7"/>
+        </g>
 
-      <div class="profession-grid" id="professionGrid" role="group" aria-label="Выбор профессии">
-        <!-- карточки профессий генерируются из js/data.js -->
-      </div>
-    </div>
-  </section>
+        <!-- ===== НАДСТРОЙКА ===== -->
+        <g id="house">
+          <!-- корпус надстройки -->
+          <path d="M286,432 L520,432 L520,606 L286,600 Z" fill="url(#whiteG)"/>
+          <path d="M508,432 L520,432 L520,606 L508,600 Z" fill="#b7ccd6"/>
+          <path d="M286,432 L520,432 L520,444 L286,444 Z" fill="#eaf3f7"/>
+          <!-- ряды иллюминаторов -->
+          <g class="windows" fill="#2c6a86" opacity=".9">
+            <rect x="306" y="456" width="14" height="10" rx="2"/><rect x="330" y="456" width="14" height="10" rx="2"/>
+            <rect x="354" y="456" width="14" height="10" rx="2"/><rect x="378" y="456" width="14" height="10" rx="2"/>
+            <rect x="402" y="456" width="14" height="10" rx="2"/><rect x="426" y="456" width="14" height="10" rx="2"/>
+            <rect x="450" y="456" width="14" height="10" rx="2"/><rect x="474" y="456" width="14" height="10" rx="2"/>
+            <rect x="306" y="484" width="14" height="10" rx="2"/><rect x="330" y="484" width="14" height="10" rx="2"/>
+            <rect x="354" y="484" width="14" height="10" rx="2"/><rect x="378" y="484" width="14" height="10" rx="2"/>
+            <rect x="402" y="484" width="14" height="10" rx="2"/><rect x="426" y="484" width="14" height="10" rx="2"/>
+            <rect x="450" y="484" width="14" height="10" rx="2"/><rect x="474" y="484" width="14" height="10" rx="2"/>
+            <rect x="306" y="512" width="14" height="10" rx="2"/><rect x="330" y="512" width="14" height="10" rx="2"/>
+            <rect x="354" y="512" width="14" height="10" rx="2"/><rect x="378" y="512" width="14" height="10" rx="2"/>
+            <rect x="402" y="512" width="14" height="10" rx="2"/><rect x="426" y="512" width="14" height="10" rx="2"/>
+            <rect x="450" y="512" width="14" height="10" rx="2"/><rect x="474" y="512" width="14" height="10" rx="2"/>
+            <rect x="306" y="540" width="14" height="10" rx="2"/><rect x="330" y="540" width="14" height="10" rx="2"/>
+            <rect x="354" y="540" width="14" height="10" rx="2"/><rect x="378" y="540" width="14" height="10" rx="2"/>
+            <rect x="402" y="540" width="14" height="10" rx="2"/><rect x="426" y="540" width="14" height="10" rx="2"/>
+            <rect x="450" y="540" width="14" height="10" rx="2"/><rect x="474" y="540" width="14" height="10" rx="2"/>
+          </g>
+          <!-- крыло мостика -->
+          <rect x="262" y="404" width="284" height="30" rx="4" fill="#f4fafc"/>
+          <rect x="262" y="404" width="284" height="8" rx="4" fill="#ffffff"/>
+          <rect x="270" y="412" width="268" height="14" rx="2" fill="url(#glassG)"/>
+          <!-- ходовой мостик: остекление -->
+          <rect x="292" y="366" width="226" height="40" rx="5" fill="#f7fdfe"/>
+          <rect x="298" y="372" width="214" height="26" rx="3" fill="url(#glassG)"/>
+          <rect x="298" y="372" width="214" height="8" rx="3" fill="#bfeaf6" opacity=".8"/>
+          <rect x="292" y="366" width="226" height="6" rx="3" fill="#ffffff"/>
+          <!-- мачта с радаром -->
+          <rect x="392" y="292" width="6" height="76" fill="#e6f1f5"/>
+          <rect x="368" y="296" width="54" height="5" rx="2.5" fill="#e6f1f5"/>
+          <g id="radar" style="transform-origin:399px 296px">
+            <rect x="374" y="288" width="50" height="5" rx="2.5" fill="#cfe3ea"/>
+            <rect x="386" y="286" width="26" height="3" rx="1.5" fill="#9fc0cc"/>
+          </g>
+          <!-- антенны -->
+          <line x1="418" y1="296" x2="418" y2="258" stroke="#dbeaf0" stroke-width="2"/>
+          <line x1="446" y1="296" x2="446" y2="268" stroke="#dbeaf0" stroke-width="2"/>
+          <circle cx="446" cy="266" r="2.5" fill="#ffd79a"/>
+          <circle cx="418" cy="256" r="2" fill="#ff6b5e" class="blink"/>
+          <!-- тень под надстройкой -->
+          <path d="M286,600 L520,606 L520,614 L286,608 Z" fill="#0b2a3d" opacity=".45"/>
+        </g>
 
-  <!-- ================= БАЗОВЫЕ КУРСЫ ================= -->
-  <section class="section" id="courses">
-    <div class="container">
-      <div class="section-head">
-        <h2>Базовые курсы для начинающих</h2>
-        <p>
-          Рекомендованная последовательность для входа в профессию. Каждый курс — это модуль
-          из базы знаний; нажимайте, чтобы открыть материал.
-        </p>
-      </div>
+        <!-- ===== ТРУБА ===== -->
+        <g id="funnel">
+          <path d="M548,470 L624,470 L612,592 L560,592 Z" fill="#173f55"/>
+          <path d="M624,470 L612,592 L598,592 L608,470 Z" fill="#0e2c3e"/>
+          <rect x="542" y="462" width="88" height="14" rx="4" fill="#0b2431"/>
+          <rect x="556" y="486" width="60" height="16" rx="3" fill="#f0b95a" opacity=".9"/>
+          <rect x="556" y="510" width="60" height="5" rx="2" fill="#cfe3ea" opacity=".35"/>
+          <path d="M548,470 L608,470 L606,478 L548,478 Z" fill="#2a5b73" opacity=".6"/>
+        </g>
 
-      <div class="courses-tabs" id="coursesTabs" role="tablist" aria-label="Выбор группы">
-        <button class="courses-tab is-active" data-group="cadet" role="tab" aria-selected="true">🎓 Кадеты</button>
-        <button class="courses-tab" data-group="intern" role="tab" aria-selected="false">🛠️ Практиканты</button>
-      </div>
+        <!-- ===== ДЫМ ===== -->
+        <g id="smoke" fill="#ffffff"></g>
 
-      <p class="courses-intro" id="coursesIntro"></p>
+        <!-- ===== БАК / БАШЕННЫЕ КРАНЫ БУДУЩЕГО ===== -->
+        <g id="foremast">
+          <rect x="1268" y="470" width="7" height="96" fill="#e6f1f5"/>
+          <rect x="1246" y="474" width="50" height="5" rx="2.5" fill="#e6f1f5"/>
+          <circle cx="1268" cy="466" r="3" fill="#ffd79a"/>
+        </g>
+        <!-- ===== ВАХТЕННЫЕ ОГНИ ===== -->
+        <g id="navlights">
+          <circle cx="512" cy="358" r="4" fill="#7dffcf" filter="url(#glow)" class="glow-slow"/>
+          <circle cx="296" cy="358" r="4" fill="#ff6b5e" filter="url(#glow)" class="glow-slow"/>
+        </g>
+      </g>
 
-      <div id="coursesList">
-        <!-- шаги курсов генерируются из js/data.js (BASIC_COURSES) -->
-      </div>
-    </div>
-  </section>
+      <!-- ===== КЛИКАБЕЛЬНЫЕ ЗОНЫ ===== -->
+      <g id="hotspots" class="hotspots"></g>
 
-  <!-- ================= БАЗА ЗНАНИЙ ================= -->
-  <section class="section section-alt" id="knowledge">
-    <div class="container">
-      <div class="section-head">
-        <h2>База знаний</h2>
-        <p>Собираем то, что нужно знать: от основ до подготовки к экзаменам. Фильтруйте по профессии, аудитории и уровню.</p>
-      </div>
+      <!-- ===== БУРУН У НОСА ===== -->
+      <g id="bowWash" opacity=".9">
+        <path d="M1352,700 C1392,700 1424,708 1436,724 C1410,716 1376,712 1344,708 Z" fill="#ffffff" opacity=".8"/>
+      </g>
+    </g>
+  </svg>
+</div>
 
-      <div class="filters">
-        <div class="pill-group" id="audienceFilter" role="group" aria-label="Фильтр по аудитории">
-          <button class="pill is-active" data-audience="all">Все</button>
-          <button class="pill" data-audience="sailor">Моряки</button>
-          <button class="pill" data-audience="cadet">Кадеты</button>
-          <button class="pill" data-audience="intern">Практиканты</button>
-        </div>
+<!-- ═══════════ HUD ═══════════ -->
+<header class="hud hud-top">
+  <a class="brand" href="#/" data-go="hero" aria-label="SeaGuide — вернуться на судно">
+    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V20"/><path d="M6.5 10.5h11"/><path d="M4 14.5c0 3.6 3.6 5.5 8 5.5s8-1.9 8-5.5"/><path d="M4 14.5l-1.4 2M4 14.5l2.4 1M20 14.5l1.4 2M20 14.5l-2.4 1"/></svg></span>
+    <span class="brand-text">Sea<span>Guide</span></span>
+  </a>
+  <div class="hud-actions">
+    <button class="hud-btn" data-open="all"><span>Все модули</span></button>
+    <button class="hud-btn" data-open="about"><span>О судне</span></button>
+  </div>
+</header>
 
-        <div class="pill-group" id="levelFilter" role="group" aria-label="Фильтр по уровню">
-          <button class="pill is-active" data-level="all">Любой уровень</button>
-          <button class="pill" data-level="basic">Базовый</button>
-          <button class="pill" data-level="mid">Уверенный</button>
-          <button class="pill" data-level="advanced">Продвинутый</button>
-        </div>
+<div class="hero-copy" id="heroCopy">
+  <h1 class="hero-title"><span class="line">Кто держит судно</span> <span class="line">на курсе</span></h1>
+  <p class="hero-lead">Судно идёт по открытому океану. Заходите в отсеки — на мостик, на палубу, в машинное отделение, в радиорубку — и знакомьтесь с людьми, которые держат этот рейс. В каждом отсеке — профессии и учебные модули.</p>
+  <div class="hero-stats">
+    <div class="hs"><b data-count="16">16</b><span>профессий</span></div>
+    <div class="hs"><b data-count="19">19</b><span>учебных модулей</span></div>
+    <div class="hs"><b data-count="4">4</b><span>отсека</span></div>
+  </div>
+</div>
 
-        <div class="search-wrap">
-          <input type="search" id="searchInput" class="search-input" placeholder="Поиск по модулям…" aria-label="Поиск по модулям" />
-        </div>
-      </div>
+<nav class="zone-dock" id="zoneDock" aria-label="Отсеки судна"></nav>
+<noscript>
+  <div class="noscript-fallback">
+    <strong>SeaGuide работает и без анимаций.</strong>
+    <span>Откройте учебные модули напрямую:</span>
+    <a href="module.html?id=deck-nav-basic">Навигация</a>
+    <a href="module.html?id=eng-main">Главный двигатель</a>
+    <a href="module.html?id=rad-gmdss">GMDSS</a>
+    <a href="module.html?id=gen-safety">Безопасность</a>
+  </div>
+</noscript>
 
-      <p class="result-count" id="resultCount" aria-live="polite"></p>
+<div class="scroll-hint" id="scrollHint"><span>Нажмите на отсек судна</span><i></i></div>
 
-      <div class="module-grid" id="moduleGrid">
-        <!-- модули генерируются из js/data.js -->
-      </div>
-
-      <div class="empty-state" id="emptyState" hidden>
-        <span class="empty-icon">🌊</span>
-        <h3>По выбранным условиям ничего не нашлось</h3>
-        <p>Попробуйте смягчить фильтры или сбросить их.</p>
-        <button class="btn btn-primary" id="resetFilters">Сбросить фильтры</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= АУДИТОРИЯ ================= -->
-  <section class="section" id="audience">
-    <div class="container">
-      <div class="section-head">
-        <h2>Кому мы помогаем</h2>
-        <p>Разный опыт — разные задачи. Каждый найдёт материалы на своём этапе пути.</p>
-      </div>
-      <div class="audience-grid">
-        <article class="audience-card">
-          <div class="audience-icon" aria-hidden="true">🧭</div>
-          <h3>Моряки</h3>
-          <p>Рабочая команда и офицеры в море: материалы по смене, подготовке к аттестации, COLREG, судовым системам и нормам STCW.</p>
-        </article>
-        <article class="audience-card">
-          <div class="audience-icon" aria-hidden="true">🎓</div>
-          <h3>Кадеты</h3>
-          <p>Студенты морских вузов: фундамент теории, подготовка к зачётам и экзаменам, первые шаги в профессии.</p>
-        </article>
-        <article class="audience-card">
-          <div class="audience-icon" aria-hidden="true">🛠️</div>
-          <h3>Практиканты</h3>
-          <p>Судоводители в начале пути: практика, чек-листы, типичные ошибки и то, как всё выглядит в реальном судоходстве.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= О ПОРТАЛЕ ================= -->
-  <section class="section section-alt" id="about">
-    <div class="container about-grid">
-      <div>
-        <h2>О портале</h2>
-        <p>
-          SeaGuide создан, чтобы собраться в одном месте всё, что разбросано по учебникам,
-          судовым правилам и личным заметкам. Мы структурируем материал по профессиям и уровням
-          подготовки, чтобы вы тратили время не на поиск, а на обучение.
-        </p>
-        <p>
-          Портал постоянно пополняется: новые модули, практические кейсы и подборки к экзаменам.
-        </p>
-      </div>
-      <ul class="feature-list">
-        <li><strong>Профессии</strong> — палубная, машинная, радиосвязь и общие дисциплины.</li>
-        <li><strong>Уровни</strong> — базовый, уверенный, продвинутый: входите с любой точки.</li>
-        <li><strong>Поиск</strong> — находите нужный модуль за пару секунд.</li>
-        <li><strong>Простота</strong> — быстрый сайт, работает на телефоне в море и на берегу.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ================= ПОДВАЛ ================= -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <a class="logo logo-light" href="#top">
-        <span class="logo-mark">⚓</span>
-        <span class="logo-text">Sea<span>Guide</span></span>
-      </a>
-      <p>© 2026 SeaGuide. Учись. Расти. Иди по курсу к цели.</p>
-    </div>
-  </footer>
-
-  <!-- ================= МОДАЛЬНОЕ ОКНО МОДУЛЯ ================= -->
-  <div class="modal" id="moduleModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
-    <div class="modal-backdrop" data-close-modal></div>
-    <div class="modal-card" role="document">
-      <button class="modal-close" data-close-modal aria-label="Закрыть">&times;</button>
-      <div class="modal-badges" id="modalBadges"></div>
-      <h3 id="modalTitle"></h3>
-      <p id="modalDesc" class="modal-desc"></p>
-      <div class="modal-content" id="modalContent"></div>
-      <a class="modal-cta" id="modalCta" href="#">
-        <span class="cta-icon" aria-hidden="true">📖</span>
-        <span class="cta-text">
-          <strong>Подробный материал</strong>
-          <small>Полный учебник модуля: теория, практика, типичные ошибки и тест самопроверки</small>
-        </span>
-        <span class="cta-arrow" aria-hidden="true">→</span>
-      </a>
-    </div>
+<!-- ═══════════ ПАНЕЛЬ ОТСЕКА ═══════════ -->
+<section class="room" id="room" hidden aria-labelledby="roomTitle">
+  <div class="room-bg" aria-hidden="true">
+    <canvas class="room-canvas" id="roomCanvas"></canvas>
+    <div class="room-vignette"></div>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <header class="room-head">
+    <button class="back-btn" id="roomBack"><span class="back-arrow">←</span> На палубу</button>
+    <div class="room-titles">
+      <p class="room-kicker" id="roomKicker">Отсек</p>
+      <h2 id="roomTitle">Мостик</h2>
+      <p id="roomDesc"></p>
+    </div>
+    <div class="room-meta" id="roomMeta"></div>
+  </header>
+
+  <div class="room-body">
+    <div class="crew-grid" id="crewGrid"></div>
+  </div>
+
+  <div class="room-foot">
+    <div class="room-rail" id="roomRail" aria-label="Переключение отсеков"></div>
+  </div>
+</section>
+
+<!-- ═══════════ КАРТОЧКА ПРОФЕССИИ ═══════════ -->
+<div class="sheet-layer" id="crewLayer" hidden>
+  <div class="sheet-scrim" data-close="crew"></div>
+  <article class="sheet" role="dialog" aria-modal="true" aria-labelledby="crewName">
+    <button class="sheet-close" data-close="crew" aria-label="Закрыть">✕</button>
+    <div class="sheet-scroll" id="crewScroll"></div>
+  </article>
+</div>
+
+<!-- ═══════════ КАРТОЧКА МОДУЛЯ ═══════════ -->
+<div class="sheet-layer" id="moduleLayer" hidden>
+  <div class="sheet-scrim" data-close="module"></div>
+  <article class="sheet sheet-wide" role="dialog" aria-modal="true" aria-labelledby="modName">
+    <button class="sheet-close" data-close="module" aria-label="Закрыть">✕</button>
+    <div class="sheet-scroll" id="moduleScroll"></div>
+  </article>
+</div>
+
+<!-- ═══════════ ВСЕ МОДУЛИ ═══════════ -->
+<div class="sheet-layer" id="allLayer" hidden>
+  <div class="sheet-scrim" data-close="all"></div>
+  <article class="sheet sheet-wide" role="dialog" aria-modal="true" aria-labelledby="allTitle">
+    <button class="sheet-close" data-close="all" aria-label="Закрыть">✕</button>
+    <div class="sheet-scroll">
+      <p class="sheet-kicker">Бортовая библиотека</p>
+      <h2 id="allTitle">Все учебные модули</h2>
+      <p class="sheet-lead">Девятнадцать модулей — от навигации до MARPOL. Фильтруйте по отсеку и уровню.</p>
+      <div class="filter-row" id="allFilters"></div>
+      <input class="search" id="allSearch" type="search" placeholder="Поиск по модулям…" aria-label="Поиск по модулям" />
+      <div class="mod-grid" id="allGrid"></div>
+    </div>
+  </article>
+</div>
+
+<!-- ═══════════ О СУДНЕ ═══════════ -->
+<div class="sheet-layer" id="aboutLayer" hidden>
+  <div class="sheet-scrim" data-close="about"></div>
+  <article class="sheet" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <button class="sheet-close" data-close="about" aria-label="Закрыть">✕</button>
+    <div class="sheet-scroll">
+      <p class="sheet-kicker">О проекте</p>
+      <h2 id="aboutTitle">Один рейс — четыре отсека и одна дорога в море</h2>
+      <p class="sheet-lead">SeaGuide собран как судно: идёшь по палубе, заходишь в отсек и находишь людей, которые там работают. Вместо скучного каталога — путь по судну.</p>
+      <ul class="about-list">
+        <li><strong>Мостик</strong> — капитан, старший помощник, штурман: навигация, правила расхождения, погода.</li>
+        <li><strong>Палуба</strong> — боцман и матросы: грузовые операции, швартовка, судовые работы.</li>
+        <li><strong>Машинное отделение</strong> — механики и электрики: главный двигатель, котлы, генераторы.</li>
+        <li><strong>Радиорубка</strong> — GMDSS, радар, спутник, морской английский.</li>
+        <li><strong>Общие дисциплины</strong> — STCW, безопасность, медицина, MARPOL: фундамент для всех на борту.</li>
+      </ul>
+      <p class="sheet-note">Погода на сайте — солнечная, берег не виден намеренно: в открытом море порт остаётся далеко позади, а навыки — с тобой.</p>
+    </div>
+  </article>
+</div>
+
+<!-- ═══════════ ПЕРЕХОД МЕЖДУ СТРАНИЦАМИ ═══════════ -->
+<div class="wipe" id="wipe" aria-hidden="true"><div class="wipe-panel"></div></div>
+
+<footer class="site-signature">SeaGuide · учебный рейс · 2026</footer>
+
+<script src="vendor/anime.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/crew.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
